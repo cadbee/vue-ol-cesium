@@ -1,0 +1,73 @@
+scalar JSON
+
+type Layer {
+    id: ID!
+    title: String!
+    visible: Boolean!
+    content: JSON!
+}
+
+type SubTask {
+    id: ID!
+    text: String!
+    completed: Boolean!
+    taskID: ID!
+}
+
+type MainTask {
+    id: ID!
+    name: String!
+    subTasks: [SubTask]
+}
+
+input MainTaskInput {
+    name: String!
+}
+
+input SubTaskInput {
+    taskID: ID!
+    text: String!
+}
+
+input UpdateMainTaskInput{
+    id: ID!
+    name: String!
+}
+
+input UpdateSubTaskInput{
+    id: ID!
+    text: String!
+    completed: Boolean!
+}
+
+input UpdateSubTaskTextInput{
+    id: ID!
+    text: String!
+}
+
+
+type Query {
+    mainTasks: [MainTask]
+    allLayers: [Layer]
+    layer(layerID: ID!): Layer
+    subTasks(taskID: ID!): [SubTask]
+}
+
+type Mutation {
+    addMainTask (input: MainTaskInput!): MainTask!
+    addSubTask (input: SubTaskInput!): SubTask!
+    deleteMainTask(id: ID!): MainTask!
+    deleteSubTask(id: ID!): SubTask!
+    updateMainTask(input: UpdateMainTaskInput!): MainTask!
+    updateSubTask(input: UpdateSubTaskInput!): SubTask!
+    updateSubTaskText(input: UpdateSubTaskTextInput!): SubTask!
+    undoLastChange: Boolean!
+}
+
+type Subscription {
+    mySub: String!
+    subTaskAdded: SubTask!
+    mainTaskAdded: MainTask!
+    subTaskDeleted: SubTask!
+    mainTaskDeleted: MainTask!
+}
