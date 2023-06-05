@@ -9,7 +9,6 @@ let cesiumBuild = 'node_modules/cesium/Build/Cesium/'
 module.exports = {
     //Cesium webpack settings
     publicPath: '',
-
     configureWebpack: {
         plugins: [
             new CopyWebpackPlugin({
@@ -28,11 +27,16 @@ module.exports = {
         module: {
             unknownContextRegExp: /\/cesium\/cesium\/Source\/Core\/buildModuleUrl\.js/,
             unknownContextCritical: false,
-            rules: [{
-                test: /\.js$/,
-                include: path.resolve(__dirname, 'node_modules/cesium/Source'),
-                use: { loader: require.resolve('@open-wc/webpack-import-meta-loader') }
-            }
+            rules: [
+                {
+                    test: /\.js$/,
+                    include: path.resolve(__dirname, 'node_modules/cesium/Source'),
+                    use: { loader: require.resolve('@open-wc/webpack-import-meta-loader') }
+                },
+                {
+                    test: /\.gql$/,
+                    use: { loader: require.resolve('graphql-tag/loader')}
+                }
             ]
         }
     }

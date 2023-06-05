@@ -6,65 +6,90 @@
     >
         <el-space>
             <el-button
-                type="primary"
-                size="large"
-                plain
-                @click="saveAsGeoJSON"
+                    type="primary"
+                    size="large"
+                    plain
+                    @click="saveAsGeoJSON"
             >
                 Save as GeoJSON
             </el-button>
             <el-button
-                type="primary"
-                size="large"
-                plain
-                @click="onGeoJSONUploadButtonClicked"
+                    type="primary"
+                    size="large"
+                    plain
+                    @click="onGeoJSONUploadButtonClicked"
             >
                 Import from GeoJSON
             </el-button>
             <input
-                style="display: none"
-                ref="uploadGeoJSONInput"
-                type="file"
-                @change="uploadGeoJSON"
+                    style="display: none"
+                    ref="uploadGeoJSONInput"
+                    type="file"
+                    @change="uploadGeoJSON"
             />
+            <ApolloQuery :query="require('../graphql/Layers.gql')">
+                <template v-slot="{ result: { loading, error, data } }">
+                    <div
+                            class="loading apollo"
+                            v-if="loading"
+                    >
+                        Loading...
+                    </div>
+                    <!-- Error -->
+                    <div
+                            class="error apollo"
+                            v-else-if="error"
+                    >
+                        An error occurred
+                    </div>
+                    <el-select v-else-if="data">
+                        <el-option
+                            v-for="layer in data.allLayers"
+                            :key="layer.id"
+                            :label="layer.title"
+                            :value="layer.title"
+                        />
+                    </el-select>
+                </template>
+            </ApolloQuery>
         </el-space>
         <el-space>
             <p>Draw: </p>
             <el-select
-                v-model="drawType"
-                placeholder="Select"
-                size="large"
-                @change="enableDrawing"
+                    v-model="drawType"
+                    placeholder="Select"
+                    size="large"
+                    @change="enableDrawing"
             >
                 <el-option
-                    v-for="item of drawTypes"
-                    :key="item"
-                    :label="item"
-                    :value="item"
+                        v-for="item of drawTypes"
+                        :key="item"
+                        :label="item"
+                        :value="item"
                 />
             </el-select>
             <el-button
-                type="primary"
-                size="large"
-                plain
-                @click="addRandomPoint"
+                    type="primary"
+                    size="large"
+                    plain
+                    @click="addRandomPoint"
             >
                 Add Random Point
             </el-button>
             <el-button
-                type="danger"
-                size="large"
-                plain
-                @click="removeRandomPoint"
+                    type="danger"
+                    size="large"
+                    plain
+                    @click="removeRandomPoint"
             >
                 Remove Random Point
             </el-button>
             <el-button
-                type="warning"
-                size="large"
-                plain
-                id="trackLocation"
-                @click="trackLocation"
+                    type="warning"
+                    size="large"
+                    plain
+                    id="trackLocation"
+                    @click="trackLocation"
             >
                 Track Location
             </el-button>
@@ -75,14 +100,14 @@
 
     <el-container id="map3d">
         <el-button
-            class="cesium-buttons cesium-fs-button"
-            @click="enableCesiumFs"
+                class="cesium-buttons cesium-fs-button"
+                @click="enableCesiumFs"
         >
             Cesium Fs
         </el-button>
         <el-button
-            class="cesium-buttons cesium-enable-button"
-            @click="onEnableCesiumButtonClick"
+                class="cesium-buttons cesium-enable-button"
+                @click="onEnableCesiumButtonClick"
         >
             {{ isCesiumEnabled ? "Disable" : "Enable" }}
         </el-button>
@@ -92,6 +117,7 @@
 <script>
 import "cesium/Build/Cesium/Widgets/widgets.css"
 import * as Cesium from 'cesium'
+
 window.Cesium = Cesium
 Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJhN2FjYTI2NC1jOGMwLTQzMTgtYjM1Zi05Y2QxMjBjZWMyZmEiLCJpZCI6MTQxNjc5LCJpYXQiOjE2ODUwOTMxNjl9.b0uZ3zsVeASjaYccL8obTVZFwAmnJm5ZgEE_t_JM-gk'
 import OLCesium from 'olcs/OLCesium.js'

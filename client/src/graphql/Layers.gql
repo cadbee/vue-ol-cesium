@@ -1,0 +1,8 @@
+query layers {
+    allLayers {
+        id
+        title
+        visible
+        content
+    }
+}
