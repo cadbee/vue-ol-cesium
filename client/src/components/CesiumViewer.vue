@@ -1,117 +1,96 @@
 <template>
-    <el-row
-            class="el-header centerRow"
-            style="background-color: rgba(199,198,198,0.22)"
-            justify="space-between"
-    >
-        <el-space>
-            <el-button
-                    type="primary"
-                    size="large"
-                    plain
-                    @click="saveAsGeoJSON"
-            >
-                Save as GeoJSON
-            </el-button>
-            <el-button
-                    type="primary"
-                    size="large"
-                    plain
-                    @click="onGeoJSONUploadButtonClicked"
-            >
-                Import from GeoJSON
-            </el-button>
-            <input
-                    style="display: none"
-                    ref="uploadGeoJSONInput"
-                    type="file"
-                    @change="uploadGeoJSON"
-            />
-            <ApolloQuery :query="require('../graphql/Layers.gql')">
-                <template v-slot="{ result: { loading, error, data } }">
-                    <div
-                            class="loading apollo"
-                            v-if="loading"
-                    >
-                        Loading...
-                    </div>
-                    <!-- Error -->
-                    <div
-                            class="error apollo"
-                            v-else-if="error"
-                    >
-                        An error occurred
-                    </div>
-                    <el-select v-else-if="data">
-                        <el-option
-                            v-for="layer in data.allLayers"
-                            :key="layer.id"
-                            :label="layer.title"
-                            :value="layer.title"
-                        />
-                    </el-select>
-                </template>
-            </ApolloQuery>
-        </el-space>
-        <el-space>
-            <p>Draw: </p>
-            <el-select
-                    v-model="drawType"
-                    placeholder="Select"
-                    size="large"
-                    @change="enableDrawing"
-            >
-                <el-option
-                        v-for="item of drawTypes"
-                        :key="item"
-                        :label="item"
-                        :value="item"
-                />
-            </el-select>
-            <el-button
-                    type="primary"
-                    size="large"
-                    plain
-                    @click="addRandomPoint"
-            >
-                Add Random Point
-            </el-button>
-            <el-button
-                    type="danger"
-                    size="large"
-                    plain
-                    @click="removeRandomPoint"
-            >
-                Remove Random Point
-            </el-button>
-            <el-button
-                    type="warning"
-                    size="large"
-                    plain
-                    id="trackLocation"
-                    @click="trackLocation"
-            >
-                Track Location
-            </el-button>
-        </el-space>
-    </el-row>
+    <v-row class="pa-1 ma-0 mb-2" justify="space-between" align="center">
+        <v-btn
+            size="small"
+            @click="saveAsGeoJSON"
+        >
+            Save as GeoJSON
+        </v-btn>
+        <v-btn
+            size="small"
+            @click="onGeoJSONUploadButtonClicked"
+        >
+            Import from GeoJSON
+        </v-btn>
+        <input
+            style="display: none"
+            ref="uploadGeoJSONInput"
+            type="file"
+            @change="uploadGeoJSON"
+        />
+        <v-spacer/>
+        <v-select
+            v-model="drawType"
+            :items="drawTypes"
+            label="Draw"
+            density="compact"
+            variant="solo"
+            :hide-details="true"
+            @update:modelValue="enableDrawing"
+        />
+        <v-btn
+            size="small"
+            @click="addRandomPoint"
+        >
+            Add Random Point
+        </v-btn>
+        <v-btn
+            size="small"
+            @click="removeRandomPoint"
+        >
+            Remove Random Point
+        </v-btn>
+        <v-btn
+            id="trackLocation"
+            size="small"
+            @click="trackLocation"
+        >
+            Track Location
+        </v-btn>
+    </v-row>
+<!--    <ApolloQuery :query="require('../graphql/Layers.gql')">-->
+<!--        <template v-slot="{ result: { loading, error, data } }">-->
+<!--            <div-->
+<!--                    class="loading apollo"-->
+<!--                    v-if="loading"-->
+<!--            >-->
+<!--                Loading...-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Error &ndash;&gt;-->
+<!--            <div-->
+<!--                    class="error apollo"-->
+<!--                    v-else-if="error"-->
+<!--            >-->
+<!--                An error occurred-->
+<!--            </div>-->
+<!--            <el-select v-else-if="data">-->
+<!--                <el-option-->
+<!--                    v-for="layer in data.allLayers"-->
+<!--                    :key="layer.id"-->
+<!--                    :label="layer.title"-->
+<!--                    :value="layer.title"-->
+<!--                />-->
+<!--            </el-select>-->
+<!--        </template>-->
+<!--    </ApolloQuery>-->
+    <v-container class="d-flex fill-height">
+        <v-container id="map2d" class="pa-2"/>
 
-    <el-container id="map2d"/>
-
-    <el-container id="map3d">
-        <el-button
+        <v-container id="map3d" class="pa-2">
+            <el-button
                 class="cesium-buttons cesium-fs-button"
                 @click="enableCesiumFs"
-        >
-            Cesium Fs
-        </el-button>
-        <el-button
+            >
+                Cesium Fs
+            </el-button>
+            <el-button
                 class="cesium-buttons cesium-enable-button"
                 @click="onEnableCesiumButtonClick"
-        >
-            {{ isCesiumEnabled ? "Disable" : "Enable" }}
-        </el-button>
-    </el-container>
+            >
+                {{ isCesiumEnabled ? "Disable" : "Enable" }}
+            </el-button>
+        </v-container>
+    </v-container>
 </template>
 
 <script>
@@ -394,7 +373,7 @@ export default {
     position: relative;
     float: left;
     width: 50%;
-    height: 95%;
+    /*height: 95%;*/
 }
 
 #map3d {
