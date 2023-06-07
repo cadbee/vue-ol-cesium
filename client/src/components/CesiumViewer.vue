@@ -1,6 +1,7 @@
 <template>
-    <v-row class="pa-1 ma-0 mb-2" justify="space-between" align="center">
+    <v-row class="pa-3 ma-0" justify="space-between" align="center">
         <v-btn
+            class="mr-3"
             size="small"
             @click="saveAsGeoJSON"
         >
@@ -28,13 +29,16 @@
             :hide-details="true"
             @update:modelValue="enableDrawing"
         />
+        <v-spacer/>
         <v-btn
+            class="mr-3"
             size="small"
             @click="addRandomPoint"
         >
             Add Random Point
         </v-btn>
         <v-btn
+            class="mr-3"
             size="small"
             @click="removeRandomPoint"
         >
@@ -73,23 +77,23 @@
 <!--            </el-select>-->
 <!--        </template>-->
 <!--    </ApolloQuery>-->
-    <v-container class="d-flex fill-height">
-        <v-container id="map2d" class="pa-2"/>
+    <v-container id="map2d" class="pa-0"/>
 
-        <v-container id="map3d" class="pa-2">
-            <el-button
-                class="cesium-buttons cesium-fs-button"
-                @click="enableCesiumFs"
-            >
-                Cesium Fs
-            </el-button>
-            <el-button
-                class="cesium-buttons cesium-enable-button"
-                @click="onEnableCesiumButtonClick"
-            >
-                {{ isCesiumEnabled ? "Disable" : "Enable" }}
-            </el-button>
-        </v-container>
+    <v-container id="map3d" class="pa-0">
+        <v-btn
+            class="cesium-buttons cesium-fs-button"
+            size="x-small"
+            @click="enableCesiumFs"
+        >
+            Cesium Fs
+        </v-btn>
+        <v-btn
+            class="cesium-buttons cesium-enable-button"
+            size="x-small"
+            @click="onEnableCesiumButtonClick"
+        >
+            {{ isCesiumEnabled ? "Disable" : "Enable" }}
+        </v-btn>
     </v-container>
 </template>
 
@@ -373,7 +377,7 @@ export default {
     position: relative;
     float: left;
     width: 50%;
-    /*height: 95%;*/
+    height: 95%;
 }
 
 #map3d {

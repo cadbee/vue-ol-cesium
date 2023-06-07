@@ -1,15 +1,25 @@
 <template>
     <v-app>
         <v-main>
-            <div class="fill-height pa-2 d-flex flex-column" :fluid="true">
-                <v-row justify="center" class="ma-0 mb-2 pa-2">
-                    <router-link to="/">Map</router-link> |
-                    <router-link to="/about">About</router-link>
+            <v-container class="fill-height pa-0" :fluid="true">
+                <v-row justify="center" class="ma-0 pa-2">
+                    <v-btn
+                        to="/"
+                        variant="text"
+                    >
+                        Map
+                    </v-btn>
+                    <v-btn
+                        to="/about"
+                        variant="text"
+                    >
+                        About
+                    </v-btn>
                 </v-row>
-                <v-container class="fill-height pa-2" :fluid="true">
+                <v-container class="fill-height pa-0" :fluid="true">
                     <router-view></router-view>
                 </v-container>
-            </div>
+            </v-container>
         </v-main>
     </v-app>
 <!--    <el-header id="nav" style="padding-top: 10px; background-color: rgba(199,198,198,0.22)">-->

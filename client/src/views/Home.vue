@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
+  <v-container class="fill-height pa-0" :fluid="true">
     <CesiumViewer />
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -17,9 +17,9 @@ export default {
 </script>
 
 <style scoped>
-.home {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
+/*.home {*/
+/*  position: relative;*/
+/*  height: 100%;*/
+/*  width: 100%;*/
+/*}*/
 </style>
